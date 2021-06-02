@@ -1,11 +1,10 @@
 import React,{useEffect,useState} from "react"
-import {View,FlatList, Text, Image,ActivityIndicator,Dimensions} from "react-native"
-import { Title,Paragraph,Card,Caption,Divider} from 'react-native-paper';
+import {View,FlatList, Text, Image,Dimensions,Linking,TouchableOpacity} from "react-native"
+import { Title,Paragraph,Card,Caption,Divider,TouchableRipple} from 'react-native-paper';
 import LottieView from 'lottie-react-native';
 import D7 from "../functions/get7dates"
 import get_date from "../functions/getdate"
-import  {WebView}  from 'react-native-webview';
-import { color } from "react-native-reanimated";
+
 const windowwidth = Dimensions.get('window').width;
 
 
@@ -19,7 +18,6 @@ const windowwidth = Dimensions.get('window').width;
 
 var Data = []
 
-var b = "null"
 var date = get_date()
 
 
@@ -27,7 +25,7 @@ const Vaccineslots = ({route}) => {
     const pincode = route.params
     var [loading,setloading] = useState(true)
     var [centererror,setcentererror] = useState(false)
-    var [cowin,setcowin] = useState(false)
+   
     
 
 
@@ -67,24 +65,7 @@ const Vaccineslots = ({route}) => {
        )
    }
 
-   if(cowin){
-       return(
-        
-            <WebView
-            source={{ uri: 'https://selfregistration.cowin.gov.in/' }}
-            style={{ marginTop: 0 }}
-            startInLoadingState={true}
-            renderLoading={()=>(
-                <View style={{justifyContent:"flex-start",alignItems:"center",flex:1,flexDirection:"column",}}>
-                <ActivityIndicator size="large" color="skyblue" 
-            />
-            </View>
-            )}
-          />
-
-       )
-       
-   }
+  
 
    
 
@@ -107,14 +88,21 @@ const Vaccineslots = ({route}) => {
     keyExtractor = {(x,y)=> y}
     data = {Data}
     renderItem={({item})=>
-    <Card style={{marginTop:8,borderBottomWidth:1,borderBottomColor:"grey",borderRadius:20}} onPress={()=>setcowin(true)}>
+    <Card style={{marginTop:8,borderBottomWidth:1,borderBottomColor:"grey",borderRadius:20}}>
     <Card.Content>
     <View style={{marginBottom:100}}>
     <Title style={{fontSize:20}}>{item.name}</Title>
     <Caption>{item.address}</Caption>
     <Divider></Divider>
     </View>
+    <View style={{flexDirection:"row"}}>
     <Paragraph style={{borderWidth:1,backgroundColor:"#FFCFDC",borderRadius:9,elevation:10,width:60,height:20,textAlign:"center",bottom:25,fontSize:10}}>{`Price:${item.fee_type}`}</Paragraph>
+  
+    
+     
+     <Paragraph style={{borderWidth:1,backgroundColor:"#8BE78B",borderRadius:9,elevation:10,width:60,height:20,textAlign:"center",bottom:25,fontSize:10,left:60}} onPress={()=>{Linking.openURL("https://selfregistration.cowin.gov.in/")}}>Book now</Paragraph>
+   
+    </View>
     <View style={{flexDirection:"row",justifyContent:"space-evenly",marginBottom:50}}>
     <Paragraph style={{borderWidth:1,backgroundColor:"#AEE3E3",borderRadius:3,elevation:10,width:windowwidth/7.9,height:20,textAlign:"center",fontSize:11}}>{D7(0)}</Paragraph>
     <Paragraph style={{borderWidth:1,backgroundColor:"#AEE3E3",borderRadius:3,elevation:10,width:windowwidth/7.9,height:20,textAlign:"center",fontSize:11}}>{D7(1)}</Paragraph>

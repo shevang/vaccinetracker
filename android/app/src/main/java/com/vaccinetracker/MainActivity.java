@@ -1,4 +1,4 @@
-package com.vaccinetrackeraso;
+package com.vaccinetrackerbso;
 
 import android.os.Bundle;
 
